@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TasksModule } from './tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Task } from './typeorm/entities/task.entity';
 
 @Module({
   imports: [TasksModule, 
@@ -13,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'admin_user',
       password: 'S3cret',
       database: 'task_managment_db',
-      entities: [],
+      entities: [Task],
       autoLoadEntities: true,
       synchronize: true,
     })],
