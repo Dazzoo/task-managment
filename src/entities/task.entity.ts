@@ -1,3 +1,4 @@
+import { IsNotEmpty } from "class-validator";
 import { TaskStatus } from "src/tasks/types/tasks";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 

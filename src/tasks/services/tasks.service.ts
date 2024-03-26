@@ -2,6 +2,8 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from 'src/entities/task.entity';
 import { Repository } from 'typeorm';
+import { CreateTaskDto } from '../dto/CreateTask.dto';
+import { TaskStatus } from '../types/tasks';
 
 @Injectable()
 export class TasksService {
@@ -33,5 +35,15 @@ export class TasksService {
         }
 
         return task
+    }
+
+    async createTask(createTaskDetails: CreateTaskDto): Promise<Task> {
+        const newTask = await this.tasksRepository.create({
+            ...createTaskDetails,
+            status: TaskStatus.TO_DO
+        })
+        this.tasksRepository.save(newTask)
+
+        return newTask
     }
 }
