@@ -27,12 +27,20 @@ export class TasksController {
         return this.tasksService.createTask(createTaskDetails)
 
     }
-    @Patch('/:id')
+    @Patch('/:id/status')
     updateTaskStatus(
         @Param('id', ParseUUIDPipe) id : string,
         @Body() updateTaskStatusDetails: UpdateTaskStatusDto
         ) {
         return this.tasksService.updateTaskStatusById(id, updateTaskStatusDetails)
+    }
+
+    @Patch('/:id')
+    updateTask(
+        @Param('id', ParseUUIDPipe) id: string,
+        @Body() updateTaskDetails: UpdateTaskDto
+    ) {
+        return this.tasksService.updateTask(id, updateTaskDetails)
     }
 
     @Delete('/:id')
@@ -42,12 +50,5 @@ export class TasksController {
         return this.tasksService.deleteTaskById(id)
     }
     
-    @Put('/:id')
-    updateTask(
-        @Param('id', ParseUUIDPipe) id: string,
-        @Body() updateTaskDetails: UpdateTaskDto
-    ) {
-        return this.tasksService.updateTask(id, updateTaskDetails)
-    }
 
 }
