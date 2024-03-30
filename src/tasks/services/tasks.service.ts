@@ -4,6 +4,8 @@ import { Task } from 'src/entities/task.entity';
 import { Repository } from 'typeorm';
 import { CreateTaskDto } from '../dto/CreateTask.dto';
 import { TaskStatus } from '../types/tasks';
+import { UpdateTaskStatusDto } from '../dto/UpdateTaskStatus.dto';
+import { UpdateTaskDto } from '../dto/UpdateTask.dto';
 
 @Injectable()
 export class TasksService {
@@ -47,7 +49,7 @@ export class TasksService {
         return newTask
     }
 
-    async updateTaskStatusById(id, statusDto): Promise<Task> {
+    async updateTaskStatusById(id: string, statusDto: UpdateTaskStatusDto): Promise<Task> {
         const task = await this.getTaskById(id)
 
         task.status = statusDto.status
@@ -55,6 +57,21 @@ export class TasksService {
         const updatedTask = await this.tasksRepository.save(task)
 
         return updatedTask
+    }
+
+    async updateTask(id: string, taskDetailsDto: UpdateTaskDto): Promise<Task> {
+        const task = await this.getTaskById(id)
+
+        if (taskDetailsDto.title !== undefined) {
+            task.title = taskDetailsDto.title;
+        }
+
+        if (taskDetailsDto.description !== undefined) {
+            task.description = taskDetailsDto.description;
+        }
+    
+        return await this.tasksRepository.save(task);
+        
     }
 
     async deleteTaskById(id): Promise<Task> {
