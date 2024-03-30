@@ -56,4 +56,10 @@ export class TasksService {
 
         return updatedTask
     }
+
+    async deleteTaskById(id): Promise<Task> {
+        const task = await this.getTaskById(id)
+
+        return await this.tasksRepository.remove(task)
+    }
 }
