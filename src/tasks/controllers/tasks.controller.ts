@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
 import { TasksService } from '../services/tasks.service';
 import { CreateTaskDto } from '../dto/CreateTask.dto';
 import { UpdateTaskStatusDto } from '../dto/UpdateTaskStatus.dto';
 import { UpdateTaskDto } from '../dto/UpdateTask.dto';
+import { FilterTaskDto } from '../dto/FilterTask.dto';
 
 @Controller('tasks')
 export class TasksController {
@@ -12,9 +13,11 @@ export class TasksController {
 
     }
 
-    @Get('')
-    getAllTasks() {
-        return this.tasksService.getAllTasks()
+    @Get('f')
+    getAllTasksWithFilter(
+        @Query('') filter: FilterTaskDto
+    ) {
+        return this.tasksService.getTasksWithFilter(filter)
     }
 
     @Get('/:id')

@@ -6,6 +6,7 @@ import { CreateTaskDto } from '../dto/CreateTask.dto';
 import { TaskStatus } from '../types/tasks';
 import { UpdateTaskStatusDto } from '../dto/UpdateTaskStatus.dto';
 import { UpdateTaskDto } from '../dto/UpdateTask.dto';
+import { FilterTaskDto } from '../dto/FilterTask.dto';
 
 @Injectable()
 export class TasksService {
@@ -23,6 +24,32 @@ export class TasksService {
         }
 
         return tasksList
+    }
+
+    async getTasksWithFilter(filter: FilterTaskDto): Promise<Task[]> {
+
+        const { search, status } = filter
+
+        // TO DO : WORKS WRONG WITH QUERY AND SPACES, FIND A SOLUTION
+
+        console.log(filter)
+
+        const query = this.tasksRepository.createQueryBuilder('task')
+
+        if (status) {
+            query.andWhere('task.status = :status', { status })
+        }
+
+        if (search) {
+            query.andWhere('LOWER(task.title) LIKE LOWER(:search) OR LOWER(task.description) LIKE LOWER(:search)', {
+                search: `%${search}%`
+            })
+        }
+        
+        const tasks = await query.getMany()
+
+        return tasks
+
     }
 
     async getTaskById(id: string): Promise<Task> {
