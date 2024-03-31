@@ -30,8 +30,6 @@ export class TasksService {
 
         const { search, status } = filter
 
-        // TO DO : WORKS WRONG WITH QUERY AND SPACES, FIND A SOLUTION
-
         console.log(filter)
 
         const query = this.tasksRepository.createQueryBuilder('task')
