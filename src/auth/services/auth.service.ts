@@ -1,16 +1,18 @@
-import { HttpException, HttpStatus, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/users.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from '../dto/createUser.dto';
 import * as bcrypt from 'bcrypt'
 import { LoginUserDto } from '../dto/loginUser.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(User)
-        private authRepository: Repository<User>
+        private authRepository: Repository<User>,
+        private jwtService: JwtService
     ) {
 
     }
@@ -79,18 +81,16 @@ export class AuthService {
             throw new HttpException('Wrong email or password, please try again', 401)
         }
 
-        const passwordsMatch = await this.verifyPassword(password, user.password)
+        if (user && (await this.verifyPassword(password, user.password))) {
+            const token = await this.jwtService.sign({
+                username: user.username
+            })
 
+            return { token }
+        } else {
+            throw new UnauthorizedException('Wrong email or password')
 
-        if (!passwordsMatch) {
-            console.log('fail', passwordsMatch)
-
-            throw new HttpException('Wrong email or password, please try again', 401)
         }
-
-        const userResponse = { ...user };
-        delete userResponse.password;
-        return userResponse;
         
     }
 }
