@@ -77,10 +77,6 @@ export class AuthService {
 
         const user = await this.findUserByEmail(email)
 
-        if (!user) { 
-            throw new HttpException('Wrong email or password, please try again', 401)
-        }
-
         if (user && (await this.verifyPassword(password, user.password))) {
             const token = await this.jwtService.sign({
                 username: user.username
