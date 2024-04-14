@@ -78,7 +78,7 @@ export class AuthService {
         const user = await this.findUserByEmail(email)
 
         if (user && (await this.verifyPassword(password, user.password))) {
-            const token = await this.jwtService.sign({
+            const token = await this.jwtService.signAsync({
                 username: user.username
             })
 

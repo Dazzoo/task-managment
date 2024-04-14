@@ -1,11 +1,13 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { TasksService } from '../services/tasks.service';
 import { CreateTaskDto } from '../dto/CreateTask.dto';
 import { UpdateTaskStatusDto } from '../dto/UpdateTaskStatus.dto';
 import { UpdateTaskDto } from '../dto/UpdateTask.dto';
 import { FilterTaskDto } from '../dto/FilterTask.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('tasks')
+@UseGuards(AuthGuard)
 export class TasksController {
     constructor(
         private tasksService: TasksService
