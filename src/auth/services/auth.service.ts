@@ -46,6 +46,16 @@ export class AuthService {
 
         return user
     }
+    
+    async findUserByUserName(username: string) {
+        const user = await this.authRepository.findOne({
+            where: {
+                username
+            }
+        })
+
+        return user
+    }
 
     async createUser(createUserDetails: CreateUserDto) {
         const { username, email, password } = createUserDetails

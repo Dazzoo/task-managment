@@ -1,10 +1,13 @@
 import { CanActivate, ExecutionContext, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { parse } from 'cookie';
+import { AuthService } from "./services/auth.service";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-    constructor(private jwtService: JwtService) { }
+    constructor(private jwtService: JwtService,
+            private authService: AuthService
+    ) { }
 
     async canActivate(
         context: ExecutionContext
@@ -23,7 +26,10 @@ export class AuthGuard implements CanActivate {
                 return false;
             }
             const decoded = await this.jwtService.verifyAsync(token);
-            if (decoded) {
+            
+            if (decoded) {  
+                request.user = await this.authService.findUserByUserName(decoded.username)
+
                 return true;
             } else {
                 return false;

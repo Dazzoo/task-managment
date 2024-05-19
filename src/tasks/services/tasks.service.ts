@@ -7,6 +7,7 @@ import { TaskStatus } from '../types/tasks';
 import { UpdateTaskStatusDto } from '../dto/UpdateTaskStatus.dto';
 import { UpdateTaskDto } from '../dto/UpdateTask.dto';
 import { FilterTaskDto } from '../dto/FilterTask.dto';
+import { User } from 'src/entities/users.entity';
 
 @Injectable()
 export class TasksService {
@@ -64,10 +65,11 @@ export class TasksService {
         return task
     }
 
-    async createTask(createTaskDetails: CreateTaskDto): Promise<Task> {
+    async createTask(createTaskDetails: CreateTaskDto, user: User): Promise<Task> {
         const newTask = await this.tasksRepository.create({
             ...createTaskDetails,
-            status: TaskStatus.TO_DO
+            status: TaskStatus.TO_DO,
+            user
         })
         this.tasksRepository.save(newTask)
 

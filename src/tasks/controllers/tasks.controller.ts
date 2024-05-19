@@ -5,6 +5,8 @@ import { UpdateTaskStatusDto } from '../dto/UpdateTaskStatus.dto';
 import { UpdateTaskDto } from '../dto/UpdateTask.dto';
 import { FilterTaskDto } from '../dto/FilterTask.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/entities/users.entity';
 
 @Controller('tasks')
 @UseGuards(AuthGuard)
@@ -15,7 +17,7 @@ export class TasksController {
 
     }
 
-    @Get('f')
+    @Get('')
     getAllTasksWithFilter(
         @Query('') filter: FilterTaskDto
     ) {
@@ -28,8 +30,11 @@ export class TasksController {
     }
 
     @Post('')
-    createTask(@Body() createTaskDetails: CreateTaskDto) {
-        return this.tasksService.createTask(createTaskDetails)
+    createTask(
+        @Body() createTaskDetails: CreateTaskDto,
+        @GetUser() user: User
+    ) {
+        return this.tasksService.createTask(createTaskDetails, user)
 
     }
     @Patch('/:id/status')
