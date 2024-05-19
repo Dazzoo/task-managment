@@ -26,9 +26,11 @@ export class AuthController {
 
     @Post('signin')
     async signIn(
-        @Body() signInDetails: LoginUserDto
+        @Body() signInDetails: LoginUserDto,
+        @Res() res: Response
     ) {
         const userData = await this.authService.loginUser(signInDetails)
+        res.cookie('token', userData.token, { httpOnly: true });
 
         throw new HttpException({
             status: HttpStatus.OK,

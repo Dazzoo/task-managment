@@ -62,7 +62,6 @@ export class AuthService {
             return user
 
         } catch (err) {
-            console.log(err.code = "23505")
             if (err) {
                 throw new HttpException(err.detail, HttpStatus.BAD_REQUEST)
             } else {
