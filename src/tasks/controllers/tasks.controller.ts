@@ -19,9 +19,10 @@ export class TasksController {
 
     @Get('')
     getAllTasksWithFilter(
-        @Query('') filter: FilterTaskDto
+        @Query('') filter: FilterTaskDto,
+        @GetUser() user: User,
     ) {
-        return this.tasksService.getTasksWithFilter(filter)
+        return this.tasksService.getTasksWithFilter(filter, user)
     }
 
     @Get('/:id')
