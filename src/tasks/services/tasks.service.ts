@@ -55,10 +55,11 @@ export class TasksService {
 
     }
 
-    async getTaskById(id: string): Promise<Task> {
+    async getTaskById(id: string, user: User): Promise<Task> {
         const task = await this.tasksRepository.findOne({
             where: {
-                id
+                id,
+                user
             }
         })
         
@@ -80,8 +81,8 @@ export class TasksService {
         return newTask
     }
 
-    async updateTaskStatusById(id: string, statusDto: UpdateTaskStatusDto): Promise<Task> {
-        const task = await this.getTaskById(id)
+    async updateTaskStatusById(id: string, statusDto: UpdateTaskStatusDto, user: User): Promise<Task> {
+        const task = await this.getTaskById(id, user)
 
         task.status = statusDto.status
 
@@ -90,8 +91,8 @@ export class TasksService {
         return updatedTask
     }
 
-    async updateTask(id: string, taskDetailsDto: UpdateTaskDto): Promise<Task> {
-        const task = await this.getTaskById(id)
+    async updateTask(id: string, taskDetailsDto: UpdateTaskDto, user: User): Promise<Task> {
+        const task = await this.getTaskById(id, user)
 
         if (taskDetailsDto.title !== undefined) {
             task.title = taskDetailsDto.title;
@@ -105,8 +106,8 @@ export class TasksService {
         
     }
 
-    async deleteTaskById(id): Promise<Task> {
-        const task = await this.getTaskById(id)
+    async deleteTaskById(id, user: User): Promise<Task> {
+        const task = await this.getTaskById(id, user)
 
         return await this.tasksRepository.remove(task)
     }

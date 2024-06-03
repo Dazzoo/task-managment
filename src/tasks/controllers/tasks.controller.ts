@@ -26,8 +26,11 @@ export class TasksController {
     }
 
     @Get('/:id')
-    getTaskById(@Param('id', ParseUUIDPipe) id: string) {
-        return this.tasksService.getTaskById(id)
+    getTaskById(
+        @Param('id', ParseUUIDPipe) id: string,
+        @GetUser() user: User
+    ) {
+        return this.tasksService.getTaskById(id, user)
     }
 
     @Post('')
@@ -41,24 +44,27 @@ export class TasksController {
     @Patch('/:id/status')
     updateTaskStatus(
         @Param('id', ParseUUIDPipe) id : string,
-        @Body() updateTaskStatusDetails: UpdateTaskStatusDto
+        @Body() updateTaskStatusDetails: UpdateTaskStatusDto,
+        @GetUser() user: User
         ) {
-        return this.tasksService.updateTaskStatusById(id, updateTaskStatusDetails)
+        return this.tasksService.updateTaskStatusById(id, updateTaskStatusDetails, user)
     }
 
     @Patch('/:id')
     updateTask(
         @Param('id', ParseUUIDPipe) id: string,
-        @Body() updateTaskDetails: UpdateTaskDto
+        @Body() updateTaskDetails: UpdateTaskDto,
+        @GetUser() user: User
     ) {
-        return this.tasksService.updateTask(id, updateTaskDetails)
+        return this.tasksService.updateTask(id, updateTaskDetails, user)
     }
 
     @Delete('/:id')
     deleteTask(
-        @Param('id', ParseUUIDPipe) id: string
+        @Param('id', ParseUUIDPipe) id: string,
+        @GetUser() user: User
     ) {
-        return this.tasksService.deleteTaskById(id)
+        return this.tasksService.deleteTaskById(id, user)
     }
     
 
