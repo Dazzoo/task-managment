@@ -11,8 +11,8 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.development.env',
-      isGlobal: true
+      envFilePath: `.env.${process.env.APP_ENV}`,
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,8 +24,11 @@ import { ConfigModule } from '@nestjs/config';
       entities: [Task, User],
       autoLoadEntities: true,
       synchronize: true,
-    }), TasksModule, AuthModule, ],
+    }),
+    TasksModule,
+    AuthModule,
+  ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService],
 })
 export class AppModule {}

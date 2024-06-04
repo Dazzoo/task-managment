@@ -7,10 +7,8 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Task]),
-    AuthModule],
+  imports: [TypeOrmModule.forFeature([Task]), AuthModule],
   controllers: [TasksController],
-  providers: [TasksService, AuthGuard]
+  providers: [TasksService, AuthGuard],
 })
 export class TasksModule {}
