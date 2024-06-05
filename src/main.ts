@@ -8,8 +8,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe());
-  app.useGlobalInterceptors(new LoggingInterceptor(), new TransformInterceptor())
-  
-  await app.listen(3000);
+  app.useGlobalInterceptors(
+    new LoggingInterceptor(),
+    new TransformInterceptor(),
+  );
+
+  await app.listen(process.env.PORT);
 }
 bootstrap();

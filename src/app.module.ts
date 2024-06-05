@@ -7,11 +7,13 @@ import { Task } from './entities/task.entity';
 import { AuthModule } from './auth/auth.module';
 import { User } from './entities/users.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { configValidationSchema } from './config.schema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.env.${process.env.APP_ENV}`,
+      validationSchema: configValidationSchema,
       isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
