@@ -25,7 +25,7 @@ export class LoggingInterceptor implements NestInterceptor {
       .pipe(
         tap(() =>
           logger.verbose(
-            `Request from [${user.username || 'Not Authorized'}] user in [${context.getHandler().name}] handler ${Date.now() - now}ms`,
+            `Request from [${user?.username || 'Not Authorized'}] user in [${context.getHandler().name}] handler ${Date.now() - now}ms`,
           ),
         ),
       );
