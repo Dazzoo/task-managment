@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
-import { Signika_Negative } from "next/font/google";
+import { Source_Sans_3, Inter } from "next/font/google";
 import "./globals.css";
 
-const defaultFont = Signika_Negative({ subsets: ["latin"], weight: '400'  })
+const defaultFont = Source_Sans_3({ subsets: ["latin"], weight: ['700', '600'], style: 'normal', display: 'swap' })
+
+console.log(Object.getOwnPropertyNames(defaultFont));
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
