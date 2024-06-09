@@ -1,15 +1,24 @@
 import Link from 'next/link';
-import { Form } from 'app/form';
-import { redirect } from 'next/navigation';
 // import { createUser, getUser } from 'app/db';
-import { SubmitButton } from 'app/submit-button';
+import { fetchRegister } from '@/lib/routes/auth';
+import { RegisterForm } from '@/components/auth/register/RegisterForm';
+import { redirect } from 'next/navigation';
+import { SubmitButton } from '../submit-button';
 
-export default function Login() {
+export default function Register() {
+
   async function register(formData: FormData) {
     'use server';
     let email = formData.get('email') as string;
     let password = formData.get('password') as string;
-    // let user = await getUser(email);
+    let username = formData.get('name') as string;
+    let res = await fetchRegister(email, password, username)
+
+    if (res.status?.toString().startsWith('2')) {
+      redirect('/dashboard')
+    } else {
+      console.log('Something went wrong!')
+    }
 
     // if (user.length > 0) {
     //   return 'User already exists'; // TODO: Handle errors with useFormStatus
@@ -28,8 +37,8 @@ export default function Login() {
             Create an account with your email and password
           </p>
         </div>
-        <Form action={register}>
-          <SubmitButton>Sign Up</SubmitButton>
+        <RegisterForm action={register}>
+        <SubmitButton>Sign Up</SubmitButton>
           <p className="text-center text-sm text-gray-600">
             {'Already have an account? '}
             <Link href="/login" className="font-semibold text-gray-800">
@@ -37,7 +46,7 @@ export default function Login() {
             </Link>
             {' instead.'}
           </p>
-        </Form>
+        </RegisterForm>
       </div>
     </div>
   );
